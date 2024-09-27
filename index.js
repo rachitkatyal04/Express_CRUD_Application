@@ -1,5 +1,9 @@
 const express = require("express");
+
 const app = express();
+
+const taskRouter = require("./routes/taskRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const {
   MONGO_USER,
@@ -18,9 +22,15 @@ mongoose
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.error("Could not connect to MongoDB..."));
 
+// to handle json data
+app.use(express.json());
+
 app.get("/", (req, res) => {
   res.send("<h1>Hello world using Express...123456789</h1>");
 });
+
+app.use("/api/v1/tasks", taskRouter);
+app.use("/api/users", userRoutes);
 
 const PORT = process.env.PORT || 3000;
 
